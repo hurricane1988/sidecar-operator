@@ -1,0 +1,21 @@
+domain: hurricane.cn
+layout:
+- kustomize.common.kubebuilder.io/v2-alpha
+- base.go.kubebuilder.io/v3
+projectName: sidecar-operator
+repo: github.com/hurricane1988/sidecar-operator
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: hurricane.cn
+  group: apps
+  kind: Deployment
+  path: github.com/hurricane1988/sidecar-operator/api/v1
+  version: v1
+  webhooks:
+    defaulting: true
+    validation: true
+    webhookVersion: v1
+version: "3"

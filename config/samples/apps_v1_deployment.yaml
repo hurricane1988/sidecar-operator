@@ -1,0 +1,6 @@
+apiVersion: apps.hurricane.cn/v1
+kind: Deployment
+metadata:
+  name: deployment-sample
+spec:
+  # TODO(user): Add fields here
