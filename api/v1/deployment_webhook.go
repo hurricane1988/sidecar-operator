@@ -17,6 +17,7 @@ limitations under the License.
 package v1
 
 import (
+	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
@@ -43,13 +44,18 @@ func (r *Deployment) Default() {
 	deploymentlog.Info("default", "name", r.Name)
 
 	// TODO(user): fill in your defaulting logic.
-	switch r.Spec.Replicas {
-	default:
+	if r.Spec.Replicas == nil {
 		r.Spec.Replicas = new(int32)
-		*r.Spec.Replicas = 1
+		*r.Spec.Replicas = 2
 	}
 	// 判断注释是否有deployment.kubernetes.io/sidecar
 	if r.Annotations["deployment.kubernetes.io/sidecar"] == "true" {
+		if len(r.Spec.Template.Spec.Containers) > 0 {
+			r.Spec.Template.Spec.Containers = append(r.Spec.Template.Spec.Containers, corev1.Container{
+				Name:  "sidecar",
+				Image: "sidecare-image",
+			})
+		}
 	}
 }
 
